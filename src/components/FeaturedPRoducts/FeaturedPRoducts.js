@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
-import { drinkContext } from '../../App'
+//import { drinkContext } from '../../App'
 import "./Featured.css"
+import useAuth from './../../Hooks/useAuth';
 const FeaturedPRoducts = () => {
-    const data = useContext(drinkContext);
+    const { data } = useAuth();
     return (
-        <div className="px-20">
-            <h1 className="text-5xl font-bold text-center py-14">FEATURED PRODUCTS </h1>
-            <div className="grid grid-cols-4 gap-12">
+        <div className="px-8 md:px-20">
+            <h1 className="text-2xl py-6 md:text-3xl lg:text-5xl font-bold text-center md:py-14">FEATURED PRODUCTS </h1>
+            <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4 md:gap-12">
                 {
                     data.map(drink => {
                         return (

@@ -14,25 +14,19 @@ import Products from './components/Products/Products';
 import Home from './components/Home/Home';
 import NotFound from './components/NotFound/NotFound';
 import Header from './components/Header/Header';
+import DrinksDetails from './components/DrinksDetails/DrinksDetails';
+import AuthProvider from './Context/AuthProvider';
+import Login from './components/Header/Login/Login';
+import Register from './components/Register/Register';
+import PrivateRoute from './components/private/PrivateRoute';
 // out context Api
-export const drinkContext = createContext([]);
 
 function App() {
-
-  // fetching data 
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetch("https://www.thecocktaildb.com/api/json/v1/1/search.php?s")
-      .then(res => res.json())
-      .then(data => setData(data?.drinks))
-  }, [])
 
   return (
     <div className="App">
 
-      <drinkContext.Provider value={data}>
-
+      <AuthProvider>
         <Router>
           <Header />
           <Switch>
@@ -44,35 +38,38 @@ function App() {
               <Home />
             </Route>
 
-            <Route path="/drinks">
+            <Route exact path="/drinks">
               <Products />
             </Route>
 
-            <Route exact path="/featured">
+            <PrivateRoute path="/drinks_details/:id">
+              <DrinksDetails />
+            </PrivateRoute>
+
+            <PrivateRoute path="/featured">
               <FeaturedPRoducts />
-            </Route>
+            </PrivateRoute>
 
-            <Route exact path="/drink/:id">
-
-            </Route>
-
-            <Route exact path="/testimonials">
+            <Route path="/testimonials">
               <Testimonials />
             </Route>
 
-            <Route exact path="/contact">
-
+            <Route path="/login">
+              <Login />
             </Route>
 
+            <Route path="/register">
+              <Register />
+            </Route>
 
-            <Route exact path="*">
+            <Route path="*">
               <NotFound />
             </Route>
 
           </Switch>
         </Router>
 
-      </drinkContext.Provider>
+      </AuthProvider>
 
     </div>
   );

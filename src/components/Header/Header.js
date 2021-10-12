@@ -2,57 +2,70 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUser, faHeart, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import useAuth from './../../Hooks/useAuth';
 
 const Header = () => {
+    const { allContext: { user: { displayName, email, photoURL } } } = useAuth();
+
+    //icons
     const search = <FontAwesomeIcon icon={faSearch} />
-    const user = <FontAwesomeIcon icon={faUser} />
+    const userIcon = <FontAwesomeIcon icon={faUser} />
     const heart = <FontAwesomeIcon icon={faHeart} />
     const shopping = <FontAwesomeIcon icon={faShoppingBag} />
     return (
-        <div className="bg-white shadow-md h-20 px-16 flex justify-between items-center">
-            <div className="w-56">
-                <img src="https://www.thecocktaildb.com/images/logo.png" alt="logo" />
+        <div className="bg-white shadow-md h-20 px-6 md:px-16  flex md:flex-row flex-col justify-center md:justify-between items-center">
+            <div className="md:w-56">
+                <img className="w-36 md:w-full " src="https://www.thecocktaildb.com/images/logo.png" alt="logo" />
             </div>
             <div>
                 <nav>
-                    <ul className="flex items-center gap-12">
+                    <ul className="flex items-center gap-4 md:gap-12">
                         <li>
-                            <NavLink to="/home" className="font-semibold" activeClassName="text-green-400 font-bold" >HOME </NavLink>
+                            <NavLink to="/home"  className="text-xs sm:text-sm md:text-base font-semibold" activeClassName="text-green-400 font-bold" >HOME </NavLink>
                         </li>
                         <li>
-                            <NavLink className="font-semibold" activeClassName="text-green-400 font-bold" to="drinks">SHOP </NavLink>
+                            <NavLink className=" text-xs sm:text-sm md:text-base font-semibold" activeClassName="text-green-400 font-bold" to="/drinks">SHOP </NavLink>
                         </li>
                         <li>
-                            <NavLink className="font-semibold" activeClassName="text-green-400 font-bold" to="featured">FEATURED </NavLink>
+                            <NavLink className=" text-xs sm:text-sm md:text-base font-semibold" activeClassName="text-green-400 font-bold" to="featured">FEATURED </NavLink>
                         </li>
+
+                        {
+                            !displayName &&
+                            <li>
+                                <NavLink className=" text-xs sm:text-sm md:text-base font-semibold" activeClassName="text-green-400 font-bold" to="/login">LOGIN </NavLink>
+                            </li>
+                        }
+
                         <li>
-                            <NavLink className="font-semibold" activeClassName="text-green-400 font-bold" to="testimonials">TESTIMONIALS </NavLink>
-                        </li>
-                        <li>
-                            <NavLink className="font-semibold" activeClassName="text-green-400 font-bold" to="/contact">CONTACT </NavLink>
+                            <NavLink className=" text-xs sm:text-sm md:text-base font-semibold" activeClassName="text-green-400 font-bold" to="/contact">CONTACT </NavLink>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <div>
-            <ul className="flex items-center gap-5">
-            <li className="text-xl hover:text-green-400">
-                <NavLink to="/drinks"> {search}   </NavLink>
-            </li>
+            <div className="hidden md:block">
+                <ul className=" flex items-center">
 
-            <li className="text-xl hover:text-green-400">
-                <NavLink to="/drinks"> {user}   </NavLink>
-            </li>
+                    <li className="text-xl hover:text-green-400 mr-4">
+                        <NavLink to="/drinks"> {search}   </NavLink>
+                    </li>
 
-            <li className="text-xl hover:text-green-400">
-                <NavLink to="/drinks"> {heart}   </NavLink>
-            </li>
+                    <li className="text-xl hover:text-green-400 mr-4">
+                        <NavLink to="/login"> {userIcon}   </NavLink>
+                    </li>
 
-            <li className="text-xl hover:text-green-400">
-                <NavLink to="/drinks"> {shopping}   </NavLink>
-            </li>
+                    <li className="text-xl hover:text-green-400 mr-4">
+                        <NavLink to=""> {shopping}   </NavLink>
+                    </li>
 
-            </ul>
+                    <li>
+                        <img className="mr-2 w-10 rounded-full" src={photoURL} alt="" />
+                    </li>
+
+                    <li className="text-lg hover:text-green-400">
+                        <h3>{displayName} </h3>
+                    </li>
+                </ul>
             </div>
         </div>
     )
